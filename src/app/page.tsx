@@ -18,6 +18,7 @@ export default function Home() {
       <p>Keksik</p>
       {show && <p>Pidor</p>}
       {someText}
+      <p>Meeow</p>
       <Counter />
       <button onClick={() => setShow(prev => !prev)}>Click me</button>
     </div>
