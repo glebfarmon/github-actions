@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint:fix": "next lint --fix",
-    "test:jest": "jest --watchAll ./__tests__/jest",
+    "test:jest": "jest ./__tests__/jest",
     "test:e2e": "npx playwright test",
     "test:e2e:ui": "npx playwright test --ui"
   },
