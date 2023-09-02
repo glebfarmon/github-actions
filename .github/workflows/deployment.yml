@@ -1,5 +1,8 @@
-name: Testing Next App
-on: push
+name: Deploy Next App
+on:
+  push:
+    branches:
+      - master
 jobs:
   test:
     runs-on: ubuntu-latest
