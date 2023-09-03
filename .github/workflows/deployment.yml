@@ -128,10 +128,4 @@ jobs:
           name: build
           retention-days: 1
           if-no-files-found: error
-          path: |
-            package.json
-            next.config.js
-            .env*
-            public
-            .next
-#            node_modules
+          path: .next
