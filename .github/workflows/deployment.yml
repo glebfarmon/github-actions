@@ -105,8 +105,12 @@ jobs:
           name: build
           retention-days: 1
           path: |
-            .next
+            package.json
+            next.config.js
+            .env*
             public
+            .next
+            node_modules
   deploy:
     needs: build
     runs-on: ubuntu-latest
