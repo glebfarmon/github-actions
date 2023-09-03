@@ -27,9 +27,8 @@ jobs:
       - name: Run jest test
         run: pnpm test:jest
   e2e:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.37.0-jammy
     strategy:
       fail-fast: false
       matrix:
@@ -61,6 +60,22 @@ jobs:
 #            ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Get installed Playwright version
+        shell: bash
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(pnpm show @playwright/test version)" >> $GITHUB_ENV
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ matrix.project }}-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: npx playwright install-deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
       - name: Run jest test
         run: npx playwright test --reporter html --project=${{ matrix.project }} --shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report to GitHub Actions Artifacts
