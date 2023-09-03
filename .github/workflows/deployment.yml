@@ -98,8 +98,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           title: build
-            - name: Next and public
-            files: [.next/, .public]
+            - name: "Next and public"
+              files: [.next/, .public]
   deploy:
     needs: build
     runs-on: ubuntu-latest
