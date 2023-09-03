@@ -97,11 +97,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build
-          path: |
-            .next/
-            public/
-          retention-days: 1
+          title: build
+            - name: Next and public
+            files: [.next/, .public]
   deploy:
     needs: build
     runs-on: ubuntu-latest
