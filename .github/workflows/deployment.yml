@@ -62,9 +62,8 @@ jobs:
         shell: bash
         id: playwright-version
         run: |
-          PACKAGE_VERSION=$(npm ls @playwright/test --depth=0 --parseable | cut -d: -f2)
+          PACKAGE_VERSION=$(pnpm show @playwright/test version)
           echo "Playwright/Test version: $PACKAGE_VERSION"
-          echo "::set-output name=playwright_version::$PACKAGE_VERSION"
 #        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./pnpm-lock.yaml').devDependencies['@playwright/test'].version)")" >> $GITHUB_ENV
       - name: Cache playwright binaries
         uses: actions/cache@v3
