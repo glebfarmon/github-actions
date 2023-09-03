@@ -112,6 +112,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Sync files to hosting
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
@@ -120,4 +122,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           remote_path: '/'
+          delete_remote_files: true
           sftp_only: true
