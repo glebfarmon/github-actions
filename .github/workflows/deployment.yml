@@ -32,7 +32,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [ 1/4, 2/4, 3/4, 4/4 ]
+        project: [chromium, webkit, firefox]
+        shardIndex: [ 1, 2, 3, 4]
+        shardTotal: [10]
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
@@ -68,21 +70,21 @@ jobs:
         with:
           path: |
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          key: ${{ runner.os }}-playwright-${{ matrix.project }}-${{ env.PLAYWRIGHT_VERSION }}
       - name: Install Playwright Browsers
         run: |
           npx playwright install --with-deps
           npx playwright install-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run jest test
-        run: npx playwright test --reporter html --shard ${{ matrix.shard }}
+        run: npx playwright test --reporter html --project=${{ matrix.project }} --shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: playwright-report
           path: playwright-report/
-          retention-days: 29
+          retention-days: 30
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -101,7 +103,7 @@ jobs:
       - name: Run lint
         run: pnpm lint
   build:
-    needs: [ jest, lint, e2e ]
+    needs: [ jest, e2e, lint ]
     runs-on: ubuntu-latest
     steps:
       - name: Get repository code
