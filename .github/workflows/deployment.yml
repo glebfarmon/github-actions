@@ -92,7 +92,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Run lint
+      - name: Run build
         run: pnpm build
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -113,7 +113,7 @@ jobs:
         with:
           name: build
       - name: Sync files to hosting
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_IP }}
           port: ${{ secrets.FTP_PORT }}
