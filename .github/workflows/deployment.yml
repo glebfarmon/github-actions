@@ -62,9 +62,9 @@ jobs:
         shell: bash
         id: playwright-version
         run: |
-          PACKAGE_NAME="@playwright/test"
-          PACKAGE_VERSION=$(pnpm list -r -p | grep $PACKAGE_NAME | sed 's/[^0-9.]*\([0-9.]*\).*/\1/')
-          echo "Package $PACKAGE_NAME version: $PACKAGE_VERSION"
+          PACKAGE_VERSION=$(npm ls @playwright/test --depth=0 --parseable | cut -d: -f2)
+          echo "Playwright/Test version: $PACKAGE_VERSION"
+          echo "::set-output name=playwright_version::$PACKAGE_VERSION"
 #        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./pnpm-lock.yaml').devDependencies['@playwright/test'].version)")" >> $GITHUB_ENV
       - name: Cache playwright binaries
         uses: actions/cache@v3
