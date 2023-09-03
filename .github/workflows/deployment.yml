@@ -39,6 +39,7 @@ jobs:
       - name: Run jest test
         run: pnpm test:jest
   e2e:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -72,7 +73,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run jest test
-        run: npx playwright test --shard ${{ matrix.shard }}
+        run: npx playwright test --reporter html --shard ${{ matrix.shard }}
       - name: Upload blob report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v3
