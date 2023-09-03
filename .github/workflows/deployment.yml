@@ -103,7 +103,6 @@ jobs:
 #      - name: Run lint
 #        run: pnpm lint
   build:
-    needs: [ jest, e2e, lint ]
     runs-on: ubuntu-latest
     steps:
       - name: Get repository code
