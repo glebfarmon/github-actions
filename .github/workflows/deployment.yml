@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 #    paths-ignore:
 #      - '.github/workflows/*'
 jobs:
@@ -97,9 +100,10 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          title: build
-            - name: "Next and public"
-              files: [.next/, .public]
+          name: build
+          path: |
+            .next
+            public
   deploy:
     needs: build
     runs-on: ubuntu-latest
