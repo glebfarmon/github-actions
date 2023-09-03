@@ -113,8 +113,9 @@ jobs:
         with:
           name: build
       - name: Sync files to hosting
-        uses: SamKirkland/FTP-Deploy-Action@v3.1.1
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          ftp-server: ${{ secrets.FTP_IP }}
-          ftp-username: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_IP }}
+          port: ${{ secrets.FTP_PORT }}
+          username: ${{ secrets.FTP_USERNAME }}
           ftp-password: ${{ secrets.FTP_PASSWORD }}
