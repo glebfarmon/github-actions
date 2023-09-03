@@ -98,7 +98,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build
-          path: .next
+          path: |
+            .next/
+            public/
           retention-days: 1
   deploy:
     needs: build
