@@ -130,3 +130,4 @@ jobs:
           path: |
             .next/
             public/
+            package.json
