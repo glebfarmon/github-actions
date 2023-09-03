@@ -98,9 +98,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build
-          path: |
-            .next
-            public
+          path: .next
           retention-days: 1
   deploy:
     needs: build
@@ -112,16 +110,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
-      - name: Display structure of downloaded files
-        run: |
-          ls -R
-          pwd
-      - name: Sync files to hosting
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.FTP_IP }}
-          port: ${{ secrets.FTP_PORT }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          remote_path: '/'
-          sftp_only: true
+      - name: Show
+        run: ls -R
+#      - name: Sync files to hosting
+#        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+#        with:
+#          server: ${{ secrets.FTP_IP }}
+#          port: ${{ secrets.FTP_PORT }}
+#          username: ${{ secrets.FTP_USERNAME }}
+#          password: ${{ secrets.FTP_PASSWORD }}
+#          remote_path: '/'
+#          sftp_only: true
