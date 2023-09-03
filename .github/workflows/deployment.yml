@@ -133,3 +133,13 @@ jobs:
             .env*
             public
             .next
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+      - name: Test artifact download
+        run: ls -R -a
