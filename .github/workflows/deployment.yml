@@ -9,99 +9,99 @@ on:
 #    paths-ignore:
 #      - '.github/workflows/*'
 jobs:
-#  jest:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Get repository code
-#        uses: actions/checkout@v3
-#      - name: Install Node
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18.17.1
-#      - name: Install pnpm
-#        uses: pnpm/action-setup@v2
-#        with:
-#          version: 8
-#      - name: Install dependencies
-#        run: pnpm install --frozen-lockfile
-#      - name: Run jest test
-#        run: pnpm test:jest
-#  e2e:
-#    timeout-minutes: 60
-#    runs-on: ubuntu-latest
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        project: [chromium, webkit, firefox]
-#        shardIndex: [ 1, 2 ]
-#        shardTotal: [ 2 ]
-#    steps:
-#      - name: Get repository code
-#        uses: actions/checkout@v3
-#      - name: Install Node
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18.17.1
-#      - name: Install pnpm
-#        uses: pnpm/action-setup@v2
-#        with:
-#          version: 8
-##          run_install: false
-##      - name: Get pnpm store directory
-##        shell: bash
-##        run: |
-##          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-##      - name: Setup pnpm cache
-##        uses: actions/cache@v3
-##        with:
-##          path: ${{ env.STORE_PATH }}
-##          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-##          restore-keys: |
-##            ${{ runner.os }}-pnpm-store-
-#      - name: Install dependencies
-#        run: pnpm install --frozen-lockfile
-#      - name: Get installed Playwright version
+  jest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Run jest test
+        run: pnpm test:jest
+  e2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, webkit, firefox]
+        shardIndex: [ 1, 2 ]
+        shardTotal: [ 2 ]
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+#          run_install: false
+#      - name: Get pnpm store directory
 #        shell: bash
-#        id: playwright-version
-#        run: echo "PLAYWRIGHT_VERSION=$(pnpm show @playwright/test version)" >> $GITHUB_ENV
-#      - name: Cache playwright binaries
+#        run: |
+#          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+#      - name: Setup pnpm cache
 #        uses: actions/cache@v3
-#        id: playwright-cache
 #        with:
-#          path: |
-#            ~/.cache/ms-playwright
-#          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-#      - name: Install Playwright Browsers
-#        run: npx playwright install --with-deps
-#        if: steps.playwright-cache.outputs.cache-hit != 'true'
-#      - run: npx playwright install-deps
-#        if: steps.playwright-cache.outputs.cache-hit == 'true'
-#      - name: Run jest test
-#        run: npx playwright test --reporter html --project=${{ matrix.project }} --shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-#      - name: Upload blob report to GitHub Actions Artifacts
-#        if: always()
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: playwright-report
-#          path: playwright-report/
-#          retention-days: 30
-#  lint:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Get repository code
-#        uses: actions/checkout@v3
-#      - name: Install Node
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18.17.1
-#      - name: Install pnpm
-#        uses: pnpm/action-setup@v2
-#        with:
-#          version: 8
-#      - name: Install dependencies
-#        run: pnpm install --frozen-lockfile
-#      - name: Run lint
-#        run: pnpm lint
+#          path: ${{ env.STORE_PATH }}
+#          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Get installed Playwright version
+        shell: bash
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(pnpm show @playwright/test version)" >> $GITHUB_ENV
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: npx playwright install-deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+      - name: Run jest test
+        run: npx playwright test --reporter html --project=${{ matrix.project }} --shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      - name: Upload blob report to GitHub Actions Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Run lint
+        run: pnpm lint
   build:
     runs-on: ubuntu-latest
     steps:
@@ -133,13 +133,3 @@ jobs:
             .env*
             public
             .next
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-      - name: Test artifact download
-        run: ls -R -a
