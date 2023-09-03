@@ -38,6 +38,42 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Run jest test
         run: pnpm test:jest
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run jest test
+        run: pnpm test:e2e
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -68,7 +104,7 @@ jobs:
       - name: Run lint
         run: pnpm lint
   build:
-    needs: [jest, lint]
+    needs: [jest, lint, e2e]
     runs-on: ubuntu-latest
     steps:
       - name: Get repository code
@@ -112,22 +148,3 @@ jobs:
             public
             .next
 #            node_modules
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-      - name: Show
-        run: ls -R
-      - name: Sync files to hosting
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.FTP_IP }}
-          port: ${{ secrets.FTP_PORT }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          remote_path: '/'
-          sftp_only: true
