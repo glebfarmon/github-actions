@@ -116,13 +116,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository code
-        uses: actions/checkout@v3
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: build
-          path: build
       - name: Show
         run: ls -R
 #      - name: Sync files to hosting
