@@ -104,6 +104,7 @@ jobs:
         with:
           name: build
           retention-days: 1
+          if-no-files-found: error
           path: |
             package.json
             next.config.js
@@ -121,6 +122,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
+          path: build
       - name: Show
         run: ls -R
 #      - name: Sync files to hosting
