@@ -110,7 +110,7 @@ jobs:
             .env*
             public
             .next
-            node_modules
+#            node_modules
   deploy:
     needs: build
     runs-on: ubuntu-latest
