@@ -122,12 +122,12 @@ jobs:
           name: build
       - name: Show
         run: ls -R
-#      - name: Sync files to hosting
-#        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-#        with:
-#          server: ${{ secrets.FTP_IP }}
-#          port: ${{ secrets.FTP_PORT }}
-#          username: ${{ secrets.FTP_USERNAME }}
-#          password: ${{ secrets.FTP_PASSWORD }}
-#          remote_path: '/'
-#          sftp_only: true
+      - name: Sync files to hosting
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.FTP_IP }}
+          port: ${{ secrets.FTP_PORT }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remote_path: '/'
+          sftp_only: true
