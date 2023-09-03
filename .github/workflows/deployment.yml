@@ -113,7 +113,7 @@ jobs:
         with:
           name: build
       - name: Sync files to hosting
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v3.1.1
         with:
           server: ${{ secrets.FTP_IP }}
           port: ${{ secrets.FTP_PORT }}
