@@ -27,7 +27,6 @@ jobs:
       - name: Run jest test
         run: pnpm test:jest
   e2e:
-    timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.37.0-jammy
@@ -35,8 +34,8 @@ jobs:
       fail-fast: false
       matrix:
         project: [chromium, webkit, firefox]
-        shardIndex: [ 1, 2, 3, 4]
-        shardTotal: [ 4 ]
+        shardIndex: [ 1, 2 ]
+        shardTotal: [ 2 ]
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
