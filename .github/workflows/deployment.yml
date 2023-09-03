@@ -128,4 +128,4 @@ jobs:
           name: build
           retention-days: 1
           if-no-files-found: error
-          path: .next
+          path: public
